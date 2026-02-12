@@ -1,30 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Amara Agency | 2026 Premium</title>
-    <link href="https://fonts.googleapis.com/css2?family=Monoton&family=Padauk:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        body { background: #000; color: #d4af37; font-family: 'Padauk', sans-serif; margin: 0; padding: 0; overflow-x: hidden; }
-        #particles-js { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
-        header { padding: 40px 15px; background: rgba(10, 10, 10, 0.8); text-align: center; border-bottom: 1px solid rgba(212, 175, 55, 0.3); backdrop-filter: blur(5px); }
-        .main-title { font-family: 'Monoton', cursive; font-size: 3.2rem; color: #fff; text-shadow: 0 0 15px rgba(212, 175, 55, 0.6); margin: 0; letter-spacing: 5px; }
-        .highlight-text { font-size: 1.1rem; font-weight: bold; margin-top: 15px; color: #fff; letter-spacing: 3px; border: 1px solid #ff00de; padding: 5px 25px; display: inline-block; border-radius: 2px; box-shadow: 0 0 10px rgba(255, 0, 222, 0.4); }
-        .row-wrapper { margin-bottom: 60px; position: relative; z-index: 1; }
-        .row-title { padding-left: 25px; font-weight: bold; font-size: 1.2rem; color: #d4af37; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px; border-left: 3px solid #d4af37; }
-        .scrolling-content { display: flex; gap: 35px; padding: 10px 25px; overflow-x: scroll; scrollbar-width: none; }
-        .scrolling-content::-webkit-scrollbar { display: none; }
-        .profile-card { flex: 0 0 310px; background: rgba(20, 20, 20, 0.9); border-radius: 15px; border: 1px solid rgba(211, 175, 55, 0.2); overflow: hidden; }
-        .img-container { height: 350px; padding: 8px; }
-        .img-main { width: 100%; height: 100%; object-fit: cover; border-radius: 10px; }
-        .details { padding: 20px; text-align: center; }
-        .details b { color: #fff; font-size: 1.4rem; display: block; margin-bottom: 5px; }
-        .details p { color: #00d2ff; font-size: 0.9rem; margin-bottom: 10px; font-weight: bold; }
-        .status-tag { font-size: 0.8rem; background: #ff00de; color: #fff; padding: 2px 10px; border-radius: 20px; }
-        .btn-book { width: 100%; background: #d4af37; color: #000; border: none; padding: 15px; font-weight: bold; cursor: pointer; text-transform: uppercase; }
-        footer { text-align: center; padding: 40px 20px 100px; font-size: 0.75rem; color: #555; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Amara Agency | Premium Profiles</title>
+<link href="https://fonts.googleapis.com/css2?family=Monoton&family=Padauk:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+    /* Global Styles 🫦 */
+    body { margin: 0; font-family: 'Padauk', sans-serif; background: #000; color: #d4af37; overflow-x: hidden; }
+    #particles-js { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+
+    /* Header - No longer fixed, will scroll away */
+    header { 
+        padding: 40px 15px 20px; text-align: center; background: rgba(10, 10, 10, 0.9); 
+        border-bottom: 2px solid rgba(212, 175, 55, 0.3);
+        position: relative; /* Not fixed */
+    }
+    .main-title { font-family: 'Monoton', cursive; font-size: 2.8rem; color: #fff; text-shadow: 0 0 15px #d4af37; margin: 0; }
+    .sub-title { font-size: 10px; color: #ff00de; letter-spacing: 4px; text-transform: uppercase; margin-top: 5px; }
+
+    /* Filter UI 🔎 - Relative to header, will scroll away */
+    .filter-btn {
+        position: absolute; top: 20px; right: 20px; background: rgba(212, 175, 55, 0.2);
+        border: 1px solid #d4af37; color: #fff; padding: 10px; border-radius: 50%;
+        cursor: pointer; z-index: 1000; backdrop-filter: blur(5px); font-size: 1.2rem;
+        width: 45px; height: 45px; display: flex; align-items: center; justify-content: center;
+    }
+
+    .filter-box {
+        position: absolute; top: 70px; right: 20px; background: #1a1a1a;
+        padding: 15px; border-radius: 12px; display: none; z-index: 1000;
+        border: 1px solid #333; box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+    }
+    select { 
+        background: #000; color: #fff; border: 1px solid #d4af37; 
+        padding: 8px; border-radius: 5px; width: 150px; outline: none;
+    }
+
+    /* Rows & Scrolling 🫦 */
+    .row-wrapper { margin-top: 35px; }
+    .row-title { 
+        font-size: 1.2rem; color: #fff; padding-left: 20px; margin-bottom: 15px;
+        border-left: 5px solid #ff00de; text-transform: uppercase; font-weight: bold;
+    }
+    
+    /* Auto Slide Container */
+    .scrolling-content { 
+        display: flex; gap: 20px; padding: 10px 20px; overflow-x: auto; 
+        scrollbar-width: none; -webkit-overflow-scrolling: touch; 
+        scroll-behavior: smooth;
+    }
+    .scrolling-content::-webkit-scrollbar { display: none; }
+
+    /* Profile Card 💎 */
+    .profile-card { 
+        flex: 0 0 300px; background: #111; border-radius: 15px; 
+        border: 1px solid #222; overflow: hidden; position: relative;
+    }
+
+    /* Grid Logic */
+    .img-grid-3 { display: flex; height: 350px; gap: 2px; }
+    .img-main { flex: 2; height: 100%; object-fit: cover; }
+    .img-sub-col { flex: 1; display: flex; flex-direction: column; gap: 2px; }
+    .img-sub { height: 50%; object-fit: cover; }
+    .img-single { width: 100%; height: 350px; object-fit: cover; }
+
+    .details { 
+        position: absolute; bottom: 0; width: 100%; 
+        background: linear-gradient(to top, #000 75%, transparent); 
+        padding: 40px 15px 15px; box-sizing: border-box; 
+    }
+    .name-tag { font-size: 1.4rem; color: #fff; font-weight: bold; }
+    .info-pill { color: #00d2ff; font-size: 0.85rem; margin: 4px 0; font-weight: bold; }
+    
+    .status-badge { font-size: 10px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
+    .status-online { color: #00ff6a; }
+    .status-available { color: #00d2ff; }
+    .status-busy { color: #ffae00; }
+    .status-offline { color: #ff3d3d; }
+
+    .btn-book { 
+        width: 100%; background: #d4af37; color: #000; border: none; 
+        padding: 12px; font-weight: bold; cursor: pointer; transition: 0.3s;
+        text-transform: uppercase;
+    }
+    .btn-book:hover { background: #fff; }
+
+    .tg-float { 
+        position: fixed; bottom: 25px; right: 25px; background: #2AABEE; 
+        width: 60px; height: 60px; border-radius: 50%; display: flex; 
+        align-items: center; justify-content: center; box-shadow: 0 5px 20px rgba(42,171,238,0.4); z-index: 1000; 
+    }
+    .tg-float img { width: 30px; }
+
+    .loader { border: 4px solid #111; border-top: 4px solid #d4af37; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 50px auto; }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+</style>
 </head>
 <body>
 
@@ -32,80 +104,161 @@
 
 <header>
     <h1 class="main-title">AMARA</h1>
-    <div class="highlight-text">CHAT • DATE • ကြိုက်ကုန်း</div>
+    <div class="sub-title">Premium Entertainment Agency</div>
+    <button class="filter-btn" onclick="toggleFilter()">🔎</button>
+    <div class="filter-box" id="filterBox">
+        <select id="cityFilter"><option value="">All Cities</option></select>
+    </div>
 </header>
 
-<div id="mega-container" style="padding-top: 40px;">
-    <div style="text-align: center; color: #fff; padding: 50px;">Profiles များကို ရှာဖွေနေပါသည်... 🫦</div>
+<div id="main-content">
+    <div class="loader"></div>
 </div>
 
-<footer>
-    <p>© 2026 AMARA ENTERTAINMENT AGENCY.</p>
-    <p style="color: #ff00de; font-weight: bold; margin-top: 10px;">⚠️ ဝန်ဆောင်မှုရယူရန် Member ဝင်ရန် လိုအပ်ပါသည်။</p>
-</footer>
+<div class="tg-float" onclick="window.open('https://t.me/AmaraAgencyBot')">
+    <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png">
+</div>
 
 <script>
-    // GitHub API Settings 🫦 (သခင်ကြီးရဲ့ အချက်အလက်တွေနဲ့ ပြင်ထားပါတယ်)
-    const GH_USER = "phyoepyae154-max";
-    const GH_REPO = "Amara-datemm";
-    const GH_FOLDER = "Profiles"; // Folder နာမည် အကြီးအသေး မှန်ရပါမယ် 🫦
+const GH_USER = "phyoepyae154-max";
+const GH_REPO = "Amara-datemm";
+const GH_FOLDER = "Profiles";
+const BOT_LINK = "https://t.me/AmaraAgencyBot?start=Book_";
 
-    async function loadProfiles() {
-        const container = document.getElementById('mega-container');
-        try {
-            const res = await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${GH_FOLDER}`);
-            const files = await res.json();
-            
-            if (!Array.isArray(files)) throw new Error("Folder မတွေ့ပါ");
+const CATEGORIES = {
+    A:"👑 VIP DIAMOND", B:"✨ PREMIUM MODELS", C:"🌸 NEW ARRIVALS",
+    D:"🇰🇷 KOREAN STYLE", E:"💄 OFFICE LADY", F:"🎓 STUDENT TYPES",
+    G:"🎀 TEENAGE", H:"🔥 HOT & SEXY", I:"💎 NIGHT DATE", J:"🌟 VERIFIED"
+};
 
-            container.innerHTML = `<div class="row-wrapper"><div class="row-title">💎 လက်ရှိ အားလပ်နေသော အလှလေးများ</div><div class="scrolling-content" id="profile-list"></div></div>`;
-            const list = document.getElementById('profile-list');
+let ALL_PROFILES = [];
+let CITY_SET = new Set();
 
-            files.forEach(file => {
-                if (file.name.match(/\.(jpg|jpeg|png|webp|gif)$/i)) {
-                    // ဖိုင်နာမည်ကို ခွဲထုတ်ခြင်း (နာမည်_အသက်_မြို့_အခြေအနေ.jpg)
-                    const rawName = file.name.split('.')[0];
-                    const parts = rawName.split('_');
-                    
-                    const name = parts[0] || "အမည်မသိ";
-                    const age = parts[1] || "??";
-                    const location = parts[2] || "ရန်ကုန်";
-                    const status = parts[3] || "Available";
+function toggleFilter(){
+    const box = document.getElementById("filterBox");
+    box.style.display = box.style.display === "block" ? "none" : "block";
+}
 
-                    list.innerHTML += `
-                        <div class="profile-card">
-                            <div class="img-container">
-                                <img src="${file.download_url}" class="img-main">
-                            </div>
-                            <div class="details">
-                                <b>${name}</b>
-                                <p>📍 ${location} | အသက် (${age})</p>
-                                <span class="status-tag">${status} 🫦</span>
-                            </div>
-                            <button class="btn-book" onclick="window.open('https://t.me/YOUR_BOT_NAME?start=Choose_${name}')">အခုပဲ ချိတ်ဆက်မယ်</button>
-                        </div>
-                    `;
+async function loadProfiles(){
+    const container = document.getElementById("main-content");
+    try {
+        const res = await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${GH_FOLDER}`);
+        const files = await res.json();
+        container.innerHTML="";
+
+        Object.entries(CATEGORIES).forEach(([key,title])=>{
+            container.innerHTML += `
+            <div class="row-wrapper" id="row-${key}" style="display:none;">
+                <div class="row-title">${title}</div>
+                <div class="scrolling-content" id="list-${key}"></div>
+            </div>`;
+        });
+
+        const grouped={};
+        files.forEach(file=>{
+            if(file.name.match(/\.(jpg|png|jpeg|webp)$/i)){
+                const parts = file.name.split('.')[0].split('_');
+                const name = parts[0];
+                const age = parts[1] || "??";
+                const city = parts[2] || "YGN";
+                const row = (parts[3] || "A").toUpperCase();
+                const status = (parts[4] || "available").toLowerCase();
+
+                CITY_SET.add(city);
+                if(!grouped[name]){
+                    grouped[name]={name, age, city, row, status, images:[]};
                 }
-            });
-        } catch (err) {
-            container.innerHTML = `<div style="text-align: center; color: red; padding: 50px;">Profiles များ ဆွဲထုတ်ရာတွင် အမှားအယွင်းရှိနေပါသည်။ (Folder နာမည် စစ်ဆေးပါ)</div>`;
-        }
-    }
+                grouped[name].images.push(file.download_url);
+            }
+        });
 
-    // Particles Effect
-    const canvas = document.getElementById('particles-js');
-    const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-    let particlesArray = [];
-    class Particle {
-        constructor() { this.x = Math.random()*canvas.width; this.y = Math.random()*canvas.height; this.size = Math.random()*2; this.speedY = Math.random()*0.5; this.opacity = Math.random()*0.5; }
-        update() { this.y += this.speedY; if (this.y > canvas.height) this.y = 0; }
-        draw() { ctx.fillStyle = `rgba(212, 175, 55, ${this.opacity})`; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI*2); ctx.fill(); }
-    }
-    function init() { for (let i = 0; i < 70; i++) particlesArray.push(new Particle()); }
-    function animate() { ctx.clearRect(0,0,canvas.width,canvas.height); particlesArray.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animate); }
-    init(); animate();
-    loadProfiles(); // Profile တွေကို စဖွင့်တာနဲ့ ဆွဲတင်မယ် 🫦
+        ALL_PROFILES = Object.values(grouped);
+        populateFilter();
+        renderProfiles();
+        startAutoScroll(); // Start the sliding animation
+    } catch(e) { container.innerHTML="<p style='text-align:center'>Loading Error...</p>"; }
+}
+
+function populateFilter(){
+    const select = document.getElementById("cityFilter");
+    CITY_SET.forEach(city=>{
+        select.innerHTML += `<option value="${city}">${city}</option>`;
+    });
+    select.addEventListener("change", renderProfiles);
+}
+
+function renderProfiles(){
+    const city = document.getElementById("cityFilter").value;
+    Object.keys(CATEGORIES).forEach(key=>{
+        document.getElementById(`list-${key}`).innerHTML="";
+        document.getElementById(`row-${key}`).style.display="none";
+    });
+
+    ALL_PROFILES.forEach(profile=>{
+        if(city && profile.city !== city) return;
+        const list = document.getElementById(`list-${profile.row}`);
+        const row = document.getElementById(`row-${profile.row}`);
+
+        if(list){
+            row.style.display="block";
+            let imgHTML = profile.images.length >= 3 
+                ? `<div class="img-grid-3"><img src="${profile.images[0]}" class="img-main"><div class="img-sub-col"><img src="${profile.images[1]}" class="img-sub"><img src="${profile.images[2]}" class="img-sub"></div></div>`
+                : `<img src="${profile.images[0]}" class="img-single">`;
+
+            list.innerHTML += `
+            <div class="profile-card">
+                ${imgHTML}
+                <div class="details">
+                    <div class="name-tag">${profile.name}</div>
+                    <div class="info-pill">${profile.city} • Age ${profile.age}</div>
+                    <div class="status-badge status-${profile.status}">● ${profile.status.toUpperCase()}</div>
+                </div>
+                <button class="btn-book" onclick="window.open('${BOT_LINK}${profile.name}')">SELECT NOW</button>
+            </div>`;
+        }
+    });
+}
+
+// 🫦 Auto Sliding Logic
+function startAutoScroll() {
+    const scrolls = document.querySelectorAll('.scrolling-content');
+    scrolls.forEach(s => {
+        let isDown = false;
+        // Auto scroll every 30ms
+        setInterval(() => {
+            if (!isDown) {
+                s.scrollLeft += 1;
+                // Reset to start if it reaches the end for infinite feel
+                if (s.scrollLeft >= (s.scrollWidth - s.clientWidth)) {
+                    s.scrollLeft = 0;
+                }
+            }
+        }, 30);
+
+        // Pause sliding when user touches or clicks
+        s.addEventListener('mousedown', () => isDown = true);
+        s.addEventListener('touchstart', () => isDown = true);
+        s.addEventListener('mouseup', () => isDown = false);
+        s.addEventListener('touchend', () => isDown = false);
+        s.addEventListener('mouseleave', () => isDown = false);
+    });
+}
+
+// Particle Background
+const canvas = document.getElementById('particles-js');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+let particles = [];
+class Particle {
+    constructor() { this.x = Math.random()*canvas.width; this.y = Math.random()*canvas.height; this.size = Math.random()*1.5; this.speedY = Math.random()*0.3+0.1; this.opacity = Math.random()*0.5; }
+    update() { this.y += this.speedY; if (this.y > canvas.height) this.y = 0; }
+    draw() { ctx.fillStyle = `rgba(212, 175, 55, ${this.opacity})`; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI*2); ctx.fill(); }
+}
+function init() { for (let i=0; i<50; i++) particles.push(new Particle()); }
+function animate() { ctx.clearRect(0,0,canvas.width,canvas.height); particles.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animate); }
+init(); animate();
+
+loadProfiles();
 </script>
 </body>
 </html>
