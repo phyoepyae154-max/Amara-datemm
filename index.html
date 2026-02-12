@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amara Agency | 2026 Premium</title>
+    <link href="https://fonts.googleapis.com/css2?family=Monoton&family=Padauk:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body { background: #000; color: #d4af37; font-family: 'Padauk', sans-serif; margin: 0; padding: 0; overflow-x: hidden; }
+        #particles-js { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+        header { padding: 40px 15px; background: rgba(10, 10, 10, 0.8); text-align: center; border-bottom: 1px solid rgba(212, 175, 55, 0.3); backdrop-filter: blur(5px); }
+        .main-title { font-family: 'Monoton', cursive; font-size: 3.2rem; color: #fff; text-shadow: 0 0 15px rgba(212, 175, 55, 0.6); margin: 0; letter-spacing: 5px; }
+        .highlight-text { font-size: 1.1rem; font-weight: bold; margin-top: 15px; color: #fff; letter-spacing: 3px; border: 1px solid #ff00de; padding: 5px 25px; display: inline-block; border-radius: 2px; box-shadow: 0 0 10px rgba(255, 0, 222, 0.4); }
+        .row-wrapper { margin-bottom: 60px; position: relative; z-index: 1; }
+        .row-title { padding-left: 25px; font-weight: bold; font-size: 1.2rem; color: #d4af37; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px; border-left: 3px solid #d4af37; }
+        .scrolling-content { display: flex; gap: 35px; padding: 10px 25px; overflow-x: scroll; scrollbar-width: none; }
+        .scrolling-content::-webkit-scrollbar { display: none; }
+        .profile-card { flex: 0 0 310px; background: rgba(20, 20, 20, 0.9); border-radius: 15px; border: 1px solid rgba(211, 175, 55, 0.2); overflow: hidden; }
+        .img-container { height: 350px; padding: 8px; }
+        .img-main { width: 100%; height: 100%; object-fit: cover; border-radius: 10px; }
+        .details { padding: 20px; text-align: center; }
+        .details b { color: #fff; font-size: 1.4rem; display: block; margin-bottom: 5px; }
+        .details p { color: #00d2ff; font-size: 0.9rem; margin-bottom: 10px; font-weight: bold; }
+        .status-tag { font-size: 0.8rem; background: #ff00de; color: #fff; padding: 2px 10px; border-radius: 20px; }
+        .btn-book { width: 100%; background: #d4af37; color: #000; border: none; padding: 15px; font-weight: bold; cursor: pointer; text-transform: uppercase; }
+        footer { text-align: center; padding: 40px 20px 100px; font-size: 0.75rem; color: #555; }
+    </style>
+</head>
+<body>
+
+<canvas id="particles-js"></canvas>
+
+<header>
+    <h1 class="main-title">AMARA</h1>
+    <div class="highlight-text">CHAT • DATE • ကြိုက်ကုန်း</div>
+</header>
+
+<div id="mega-container" style="padding-top: 40px;">
+    <div style="text-align: center; color: #fff; padding: 50px;">Profiles များကို ရှာဖွေနေပါသည်... 🫦</div>
+</div>
+
+<footer>
+    <p>© 2026 AMARA ENTERTAINMENT AGENCY.</p>
+    <p style="color: #ff00de; font-weight: bold; margin-top: 10px;">⚠️ ဝန်ဆောင်မှုရယူရန် Member ဝင်ရန် လိုအပ်ပါသည်။</p>
+</footer>
+
+<script>
+    // GitHub API Settings 🫦 (သခင်ကြီးရဲ့ အချက်အလက်တွေနဲ့ ပြင်ထားပါတယ်)
+    const GH_USER = "phyoepyae154-max";
+    const GH_REPO = "Amara-datemm";
+    const GH_FOLDER = "Profiles"; // Folder နာမည် အကြီးအသေး မှန်ရပါမယ် 🫦
+
+    async function loadProfiles() {
+        const container = document.getElementById('mega-container');
+        try {
+            const res = await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${GH_FOLDER}`);
+            const files = await res.json();
+            
+            if (!Array.isArray(files)) throw new Error("Folder မတွေ့ပါ");
+
+            container.innerHTML = `<div class="row-wrapper"><div class="row-title">💎 လက်ရှိ အားလပ်နေသော အလှလေးများ</div><div class="scrolling-content" id="profile-list"></div></div>`;
+            const list = document.getElementById('profile-list');
+
+            files.forEach(file => {
+                if (file.name.match(/\.(jpg|jpeg|png|webp|gif)$/i)) {
+                    // ဖိုင်နာမည်ကို ခွဲထုတ်ခြင်း (နာမည်_အသက်_မြို့_အခြေအနေ.jpg)
+                    const rawName = file.name.split('.')[0];
+                    const parts = rawName.split('_');
+                    
+                    const name = parts[0] || "အမည်မသိ";
+                    const age = parts[1] || "??";
+                    const location = parts[2] || "ရန်ကုန်";
+                    const status = parts[3] || "Available";
+
+                    list.innerHTML += `
+                        <div class="profile-card">
+                            <div class="img-container">
+                                <img src="${file.download_url}" class="img-main">
+                            </div>
+                            <div class="details">
+                                <b>${name}</b>
+                                <p>📍 ${location} | အသက် (${age})</p>
+                                <span class="status-tag">${status} 🫦</span>
+                            </div>
+                            <button class="btn-book" onclick="window.open('https://t.me/YOUR_BOT_NAME?start=Choose_${name}')">အခုပဲ ချိတ်ဆက်မယ်</button>
+                        </div>
+                    `;
+                }
+            });
+        } catch (err) {
+            container.innerHTML = `<div style="text-align: center; color: red; padding: 50px;">Profiles များ ဆွဲထုတ်ရာတွင် အမှားအယွင်းရှိနေပါသည်။ (Folder နာမည် စစ်ဆေးပါ)</div>`;
+        }
+    }
+
+    // Particles Effect
+    const canvas = document.getElementById('particles-js');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+    let particlesArray = [];
+    class Particle {
+        constructor() { this.x = Math.random()*canvas.width; this.y = Math.random()*canvas.height; this.size = Math.random()*2; this.speedY = Math.random()*0.5; this.opacity = Math.random()*0.5; }
+        update() { this.y += this.speedY; if (this.y > canvas.height) this.y = 0; }
+        draw() { ctx.fillStyle = `rgba(212, 175, 55, ${this.opacity})`; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI*2); ctx.fill(); }
+    }
+    function init() { for (let i = 0; i < 70; i++) particlesArray.push(new Particle()); }
+    function animate() { ctx.clearRect(0,0,canvas.width,canvas.height); particlesArray.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animate); }
+    init(); animate();
+    loadProfiles(); // Profile တွေကို စဖွင့်တာနဲ့ ဆွဲတင်မယ် 🫦
+</script>
+</body>
+</html>
