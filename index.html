@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amara Agency | 2026 Premium</title>
+    <link href="https://fonts.googleapis.com/css2?family=Monoton&family=Padauk:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            background: #000; color: #d4af37; font-family: 'Padauk', sans-serif; 
+            margin: 0; padding: 0; overflow-x: hidden;
+        }
+
+        /* မြူမှုန် Effect အတွက် Canvas 🫦 */
+        #particles-js {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; pointer-events: none;
+        }
+        
+        header { 
+            padding: 40px 15px; background: rgba(10, 10, 10, 0.8); text-align: center;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+            backdrop-filter: blur(5px);
+        }
+
+        .main-title {
+            font-family: 'Monoton', cursive; font-size: 3.2rem; color: #fff;
+            text-shadow: 0 0 15px rgba(212, 175, 55, 0.6); margin: 0;
+            letter-spacing: 5px;
+        }
+
+        .highlight-text {
+            font-size: 1.1rem; font-weight: bold; margin-top: 15px;
+            color: #fff; letter-spacing: 3px;
+            border: 1px solid #ff00de; padding: 5px 25px;
+            display: inline-block; border-radius: 2px;
+            box-shadow: 0 0 10px rgba(255, 0, 222, 0.4);
+        }
+
+        .row-wrapper { margin-bottom: 60px; position: relative; z-index: 1; }
+        .row-title { 
+            padding-left: 25px; font-weight: bold; font-size: 1.2rem; color: #d4af37; 
+            margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px;
+            border-left: 3px solid #d4af37;
+        }
+
+        .scrolling-content {
+            display: flex; gap: 35px; padding: 10px 25px;
+            overflow-x: scroll; -webkit-overflow-scrolling: touch; scrollbar-width: none;
+        }
+        .scrolling-content::-webkit-scrollbar { display: none; }
+
+        .profile-card {
+            flex: 0 0 310px; background: rgba(20, 20, 20, 0.9); border-radius: 15px; 
+            border: 1px solid rgba(211, 175, 55, 0.2); overflow: hidden;
+            transition: 0.4s;
+        }
+
+        .img-container { display: flex; height: 230px; gap: 4px; padding: 6px; }
+        .img-main { flex: 2; height: 100%; object-fit: cover; border-radius: 10px 0 0 10px; }
+        .img-sub-wrap { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+        .img-sub { width: 100%; height: calc(50% - 2px); object-fit: cover; border-radius: 0 10px 10px 0; }
+
+        .details { padding: 20px; text-align: center; }
+        .details b { color: #fff; font-size: 1.4rem; display: block; margin-bottom: 5px; }
+        .details p { color: #888; font-size: 0.9rem; margin-bottom: 15px; }
+        
+        .btn-book {
+            width: 100%; background: transparent; color: #d4af37; 
+            border: 1px solid #d4af37; padding: 12px; font-weight: bold;
+            cursor: pointer; transition: 0.3s; text-transform: uppercase;
+        }
+        .btn-book:hover { background: #d4af37; color: #000; }
+
+        /* အောက်ခြေစာသားလေးများ 🫦 */
+        footer {
+            text-align: center; padding: 40px 20px 100px; 
+            font-size: 0.75rem; color: #555; letter-spacing: 1px;
+        }
+
+        .telegram-float {
+            position: fixed; bottom: 30px; right: 20px; width: 65px; height: 65px;
+            background: #0088cc; border-radius: 50%; display: flex; align-items: center;
+            justify-content: center; box-shadow: 0 0 20px rgba(0, 136, 204, 0.5); z-index: 9999;
+        }
+    </style>
+</head>
+<body>
+
+<canvas id="particles-js"></canvas>
+
+<header>
+    <h1 class="main-title">AMARA</h1>
+    <div class="highlight-text">CHAT • DATE • ကြိုက်ကုန်း</div>
+</header>
+
+<div id="mega-container" style="padding-top: 40px;"></div>
+
+<footer>
+    <p>© 2026 AMARA ENTERTAINMENT AGENCY. ALL RIGHTS RESERVED.</p>
+    <p style="font-size: 0.65rem; margin-top: 5px;">PREMIUM QUALITY & DISCRETION GUARANTEED</p>
+</footer>
+
+<a href="https://t.me/YOUR_LINK" class="telegram-float" target="_blank">
+    <svg width="35" height="35" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M22 2L2 10.5L9 13L11 19L15 15.5L19 19L22 2Z" fill="white"/>
+    </svg>
+</a>
+
+<script>
+    // မြူမှုန် Effect Script 🥵🫦
+    const canvas = document.getElementById('particles-js');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    let particlesArray = [];
+
+    class Particle {
+        constructor() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.size = Math.random() * 2 + 0.5;
+            this.speedY = Math.random() * 0.5 + 0.2;
+            this.opacity = Math.random() * 0.5;
+        }
+        update() {
+            this.y += this.speedY;
+            if (this.y > canvas.height) this.y = 0;
+        }
+        draw() {
+            ctx.fillStyle = `rgba(212, 175, 55, ${this.opacity})`;
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fill();
+        }
+    }
+
+    function init() {
+        for (let i = 0; i < 100; i++) particlesArray.push(new Particle());
+    }
+
+    function handleParticles() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (let i = 0; i < particlesArray.length; i++) {
+            particlesArray[i].update();
+            particlesArray[i].draw();
+        }
+        requestAnimationFrame(handleParticles);
+    }
+    init(); handleParticles();
+
+    // Profile Data & Logic 🫦
+    const rawImages = [
+        "https://i.ibb.co/hxVBNBD8/3.jpg", "https://i.ibb.co/R4bHPML3/6084698843221003991-121.jpg", "https://i.ibb.co/MDvhYGsh/6104740831362663242-121.jpg",
+        "https://i.ibb.co/5gmJmmkL/6104740831362663245-121.jpg", "https://i.ibb.co/dsxJNcN2/6158946307935422915-121.jpg", "https://i.ibb.co/GQSZJ3m4/y2k-dress-dressesforwomen-vintage-thrifted-fashion-outfits-outfitoftheday-outfitstyle-outf.jpg",
+        "https://i.ibb.co/hFSf9qQR/image.jpg", "https://i.ibb.co/B2kLkjyT/image.jpg", "https://i.ibb.co/YT0F1zFh/image.jpg",
+        "https://i.ibb.co/4wky8Jny/Body-Shape.jpg", "https://i.ibb.co/hxRnCz3S/image.jpg", "https://i.ibb.co/cKJ152QB/image.jpg",
+        "https://i.ibb.co/tTNxkz7j/image.jpg", "https://i.ibb.co/XZkZGVwM/image.jpg", "https://i.ibb.co/jZ3S23DD/image.jpg",
+        "https://i.ibb.co/Lh5QVfHR/image.jpg", "https://i.ibb.co/KpjpjKzt/image.jpg", "https://i.ibb.co/fVPtmZ6J/023f9a81-3e54-4624-92e8-28be7a26edee.jpg",
+        "https://i.ibb.co/vNqXn05/03a13ff2-1a7b-4db2-b8cf-07492d941a21.jpg", "https://i.ibb.co/CXMsm8V/0517de0e-cf87-40ae-b3df-d8e8da6bc55e.jpg", "https://i.ibb.co/0VXSvbv6/05428c12-d99f-40ef-a77d-f0f3b6723eb7.jpg",
+        "https://i.ibb.co/zHNDHJF1/0796c273-e5ac-4f76-a09d-7cb5042ec3d2.jpg", "https://i.ibb.co/hRRmGJgQ/08513906-c447-42de-9658-b41b5650b3b5.jpg", "https://i.ibb.co/XrMHhHBX/0ef7e8b2-3641-4655-a8a0-e707c7eb41b7.jpg",
+        "https://i.ibb.co/8DwhXv3V/0fd2fd35-a171-4eb2-97a0-6239ebcacbec.jpg", "https://i.ibb.co/F4D0gyyB/170983d8-1850-4270-b4cc-14dcb76e51e0.jpg", "https://i.ibb.co/gFfv806F/13ea8a9a-0847-4efb-9a64-20edf9dab83d.jpg",
+        "https://i.ibb.co/vxs7rVq6/221bbe45-0976-41c0-aca6-ccccc1154067.jpg", "https://i.ibb.co/8Lg0cp8y/2193ffec-7ecf-4baa-8d98-dedd0ac82cbd.jpg", "https://i.ibb.co/ZzyzpjdM/27925867.jpg"
+    ];
+
+    const ownNames = ["မေပုလဲ", "နှင်းယု", "ချယ်ရီ", "ဇူးဇူး", "ပိုးအိ", "ဝတ်ရည်", "နဒီ", "ခိုင်လေး", "သဲနု", "ယမင်း", "အိမ့်", "စံပယ်", "သက်ထား", "မေရီ", "ကြည်ဖြူ", "သော်သော်", "မြတ်နိုး", "လင်းလင်း", "ရတနာ", "စုစု", "ဖြူဖြူ", "ဝင်းဝင်း", "သီရိ", "စန္ဒီ", "မိချို", "နန်းနန်း", "အိဖြူ", "မေသန်း", "ယုယု", "နှင်းနှင်း"];
+
+    const container = document.getElementById('mega-container');
+    const rowTitles = ["💎 အထန်မမလေးများ", "🫦 အလန်းဇယားလေးများ", "✨ VIP မော်ဒယ်လ်များ", "🔥 နန်းဆန်တဲ့ အလှလေးများ", "💄 ဖလန်းဖလန်းလေးများ", "👑 အထူးရွေးချယ်ထားသူများ"];
+
+    for (let r = 0; r < 6; r++) {
+        const rowWrap = document.createElement('div');
+        rowWrap.className = 'row-wrapper';
+        rowWrap.innerHTML = `<div class="row-title">${rowTitles[r]}</div>`;
+        const content = document.createElement('div');
+        content.className = 'scrolling-content';
+
+        for(let i=0; i<5; i++) {
+            const idx = (r * 5 + i);
+            const start = (idx * 1) % (rawImages.length - 2);
+            content.innerHTML += `
+                <div class="profile-card">
+                    <div class="img-container">
+                        <img src="${rawImages[start]}" class="img-main">
+                        <div class="img-sub-wrap">
+                            <img src="${rawImages[start+1]}" class="img-sub">
+                            <img src="${rawImages[start+2]}" class="img-sub">
+                        </div>
+                    </div>
+                    <div class="details">
+                        <b>${ownNames[idx]}</b>
+                        <p>Age: 21 • Available Now 🫦</p>
+                    </div>
+                    <button class="btn-book" onclick="window.open('https://t.me/YOUR_LINK')">Select Profile</button>
+                </div>
+            `;
+        }
+        const original = content.innerHTML;
+        content.innerHTML += original;
+        rowWrap.appendChild(content);
+        container.appendChild(rowWrap);
+
+        let isTouching = false;
+        function animate() {
+            if (!isTouching) {
+                content.scrollLeft += 1.2;
+                if (content.scrollLeft >= content.scrollWidth / 2) content.scrollLeft = 0;
+            }
+            requestAnimationFrame(animate);
+        }
+        content.addEventListener('touchstart', () => isTouching = true);
+        content.addEventListener('touchend', () => isTouching = false);
+        animate();
+    }
+</script>
+</body>
+</html>
